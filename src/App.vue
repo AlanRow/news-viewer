@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <news-page :news="news" />
-    <news-paginator :links="links" @pageChanged="loadNews" />
+    <news-paginator />
     <el-button @click="appendNextPage">Загрузить еще</el-button>
   </div>
 </template>
@@ -18,7 +18,7 @@ export default {
     NewsPaginator,
   },
   computed: {
-    ...mapGetters(["news", "links"]),
+    ...mapGetters(["news"]),
   },
   async created() {
     this.loadNews();

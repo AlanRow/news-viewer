@@ -2,11 +2,11 @@ import { getNews } from "@/api";
 import Vue from "vue";
 import Vuex from "vuex";
 import {
-  SET_ERROR,
-  SET_LINKS,
-  SET_LOADING,
   SET_NEWS,
-  SET_NEXT_PAGE_LINK,
+  SET_CURRENT_PAGE,
+  SET_TOTAL_PAGES,
+  SET_ERROR,
+  SET_LOADING,
 } from "./types";
 
 Vue.use(Vuex);
@@ -18,29 +18,40 @@ export default new Vuex.Store({
       isLoading: false,
       error: null,
     },
-    pageLinks: [],
-    nextPageLink: null,
+    currentPage: 1,
+    totalPages: 10,
   },
   getters: {
     news(state) {
       return state.news.items;
     },
-    isNewsLoading(state) {
+    totalPages(state) {
+      return state.totalPages;
+    },
+    currentPage(state) {
+      return state.currentPage;
+    },
+    areNewsLoading(state) {
       return state.news.isLoading;
     },
     newsLoadingError(state) {
       return state.news.error;
-    },
-    links(state) {
-      return state.pageLinks;
     },
   },
   mutations: {
     [SET_NEWS](state, news) {
       state.news.items = news;
     },
-    [SET_LINKS](state, links) {
-      state.pageLinks = links;
+    [SET_CURRENT_PAGE](state, number) {
+      if (number > 0 && number < state.totalPages) {
+        state.currentPage = number;
+      }
+    },
+    [SET_TOTAL_PAGES](state, count) {
+      if (count < state.currentPage) {
+        state.currentPage = count;
+      }
+      state.totalPages = count;
     },
     [SET_LOADING](state, loading) {
       state.news.isLoading = loading;
@@ -48,21 +59,22 @@ export default new Vuex.Store({
     [SET_ERROR](state, error) {
       state.news.error = error;
     },
-    [SET_NEXT_PAGE_LINK](state, link) {
-      state.nextPageLink = link;
-    },
   },
   actions: {
-    async loadNews({ commit }, link) {
+    async loadNews({ commit, state }, page) {
+      if (state.news.isLoading) {
+        return;
+      }
+
       commit(SET_LOADING, true);
       commit(SET_ERROR, null);
       commit(SET_NEWS, []);
 
       try {
-        const { news, links, next } = await getNews(link);
+        const { news, currentPage, totalPages } = await getNews(page);
         commit(SET_NEWS, news);
-        commit(SET_LINKS, links);
-        commit(SET_NEXT_PAGE_LINK, next);
+        commit(SET_TOTAL_PAGES, totalPages);
+        commit(SET_CURRENT_PAGE, currentPage);
       } catch (err) {
         commit(SET_ERROR, err);
       } finally {
@@ -70,16 +82,21 @@ export default new Vuex.Store({
       }
     },
     async appendNextPage({ state, commit }) {
-      if (state.nextPageLink === null) return;
+      if (state.news.isLoading) {
+        return;
+      }
+
+      if (state.currentPage === state.totalPages) {
+        return;
+      }
 
       commit(SET_LOADING, true);
       commit(SET_ERROR, null);
 
       try {
-        const { news, links, next } = await getNews(state.nextPageLink);
+        const { news, currentPage } = await getNews(state.currentPage + 1);
         commit(SET_NEWS, [...state.news.items, ...news]);
-        commit(SET_LINKS, links);
-        commit(SET_NEXT_PAGE_LINK, next);
+        commit(SET_CURRENT_PAGE, currentPage);
       } catch (err) {
         commit(SET_ERROR, err);
       } finally {

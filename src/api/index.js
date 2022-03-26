@@ -1,17 +1,23 @@
 const API_URL = "https://rosrezerv.gov.ru/api/news";
 
-export async function getNews(url = API_URL) {
-  const resp = await fetch(url);
+export async function getNews(page) {
+  let pageUrl = API_URL;
+
+  if (page) {
+    pageUrl += `?page=${page}`;
+  }
+
+  const resp = await fetch(pageUrl);
   const respObj = await resp.json();
 
   const news = respObj.data.map(parseNewsItem);
-  const links = respObj.meta.links.map(parsePageLink);
-  const next = respObj.links.next ?? null;
+  const currentPage = respObj.meta.current_page;
+  const totalPages = respObj.meta.last_page;
 
   return {
     news,
-    links,
-    next,
+    currentPage,
+    totalPages,
   };
 }
 
@@ -22,13 +28,5 @@ function parseNewsItem(data) {
     image: data.image ?? null,
     date: data.date ? new Date(data.date) : null,
     link: data.link ?? null,
-  };
-}
-
-function parsePageLink(data) {
-  return {
-    active: data.active ?? false,
-    url: data.url ?? null,
-    label: data.label ?? "-",
   };
 }
