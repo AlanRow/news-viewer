@@ -2,6 +2,7 @@
   <div id="app">
     <news-page :news="news" />
     <news-paginator :links="links" @pageChanged="loadNews" />
+    <el-button @click="appendNextPage">Загрузить еще</el-button>
   </div>
 </template>
 
