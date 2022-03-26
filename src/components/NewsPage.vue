@@ -10,11 +10,15 @@
       :link="newsItem.link"
       class="news-grid__item"
     />
+    <span v-if="isLoading">Loading...</span>
+    <span v-else-if="error">Loading Error: {{ error }}</span>
+    <span v-else-if="news.length === 0">No news</span>
   </div>
 </template>
 
 <script>
 import NewsCard from "./NewsCard.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "NewsPage",
@@ -26,6 +30,12 @@ export default {
       type: Array,
       default: () => [],
     },
+  },
+  computed: {
+    ...mapGetters({
+      isLoading: "isNewsLoading",
+      error: "newsLoadingError",
+    }),
   },
 };
 </script>

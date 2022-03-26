@@ -1,25 +1,29 @@
 <template>
   <div id="app">
     <news-page :news="news" />
+    <news-paginator :links="links" @pageChanged="loadNews" />
   </div>
 </template>
 
 <script>
 import NewsPage from "./components/NewsPage.vue";
-import { getNews } from "./api";
+import NewsPaginator from "./components/NewsPaginator.vue";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "App",
   components: {
     NewsPage,
+    NewsPaginator,
   },
-  data() {
-    return {
-      news: [],
-    };
+  computed: {
+    ...mapGetters(["news", "links"]),
   },
   async created() {
-    this.news = await getNews();
+    this.loadNews();
+  },
+  methods: {
+    ...mapActions(["loadNews", "appendNextPage"]),
   },
 };
 </script>
