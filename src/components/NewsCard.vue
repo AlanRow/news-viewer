@@ -1,14 +1,14 @@
 <template>
   <el-card class="news-card">
     <template #header>
-      <h4 class="news-title" :title="title">{{ title }}</h4>
+      <h4 class="news-title" :title="title" data-qa="title">{{ title }}</h4>
     </template>
     <div class="news-image-container">
       <img :src="image" alt="No Image" class="news-image" />
     </div>
-    <p>{{ descriptionPreview }}</p>
-    <p>{{ dateLine }}</p>
-    <a v-if="link" :href="link">Далее</a>
+    <p data-qa="description">{{ descriptionPreview }}</p>
+    <p data-qa="date">{{ dateLine }}</p>
+    <a v-if="link" :href="link" data-qa="link">Далее</a>
   </el-card>
 </template>
 
