@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { getDateLine } from "@/utils/date";
+
 export default {
   name: "NewsCard",
   props: {
@@ -53,10 +55,7 @@ export default {
     dateLine() {
       if (this.date == null) return "No date";
 
-      const dayLine = this.date.getDay().toString().padStart(2, "0");
-      const monthLine = (this.date.getMonth() + 1).toString().padStart(2, "0");
-      const yearLine = this.date.getFullYear().toString();
-      return [dayLine, monthLine, yearLine].join(",");
+      return getDateLine(this.date, ",");
     },
   },
 };
