@@ -1,6 +1,11 @@
 <template>
-  <el-card :header="title">
-    <img :src="image" alt="No Image" class="news-image" />
+  <el-card class="news-card">
+    <template #header>
+      <h4 class="news-title" :title="title">{{ title }}</h4>
+    </template>
+    <div class="news-image-container">
+      <img :src="image" alt="No Image" class="news-image" />
+    </div>
     <p>{{ descriptionPreview }}</p>
     <p>{{ dateLine }}</p>
     <a v-if="link" :href="link">Далее</a>
@@ -57,9 +62,18 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.news-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.news-image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .news-image {
-  margin: auto;
-  height: 300px;
+  height: 200px;
 }
 </style>

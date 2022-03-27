@@ -1,29 +1,39 @@
 <template>
-  <div class="news-grid">
-    <news-card
-      v-for="newsItem in news"
-      :key="newsItem.id"
-      :title="newsItem.title"
-      :image="newsItem.image"
-      :description="newsItem.description"
-      :date="newsItem.date"
-      :link="newsItem.link"
-      class="news-grid__item"
-    />
-    <span v-if="isLoading">Loading...</span>
-    <span v-else-if="error">Loading Error: {{ error }}</span>
-    <span v-else-if="news.length === 0">No news</span>
+  <div class="news">
+    <div class="news-grid">
+      <news-card
+        v-for="newsItem in news"
+        :key="newsItem.id"
+        :title="newsItem.title"
+        :image="newsItem.image"
+        :description="newsItem.description"
+        :date="newsItem.date"
+        :link="newsItem.link"
+        class="news-grid__item"
+      />
+    </div>
+    <div v-if="isLoading" class="news__sub">
+      <clip-loader color="white" size="45px" />
+    </div>
+    <div v-else-if="error" class="news__sub">
+      <span class="error">Loading Error: {{ error }}</span>
+    </div>
+    <div v-else-if="news.length === 0" class="news__sub">
+      <span class="info">No news</span>
+    </div>
   </div>
 </template>
 
 <script>
 import NewsCard from "./NewsCard.vue";
+import ClipLoader from "vue-spinner/src/ClipLoader.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "NewsPage",
   components: {
     NewsCard,
+    ClipLoader,
   },
   props: {
     news: {
@@ -49,5 +59,24 @@ export default {
   &__item {
     height: 600px;
   }
+}
+
+.news {
+  &__sub {
+    margin: 1em 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.error {
+  font-size: 1.25rem;
+  color: var(--error-color);
+}
+
+.info {
+  font-size: 1.25rem;
+  color: white;
 }
 </style>

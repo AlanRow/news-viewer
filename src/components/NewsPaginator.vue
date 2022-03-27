@@ -4,6 +4,7 @@
     :page-count="total"
     :current-page="current"
     :disabled="isLoading"
+    class="paginator"
     @current-change="loadNews"
   />
 </template>
@@ -26,14 +27,4 @@ export default {
 };
 </script>
 
-<style>
-.clickable-link {
-  color: "blue";
-  cursor: pointer;
-}
-
-.active-link {
-  text-decoration: underline;
-  font-size: 1.1em;
-}
-</style>
+<style></style>
