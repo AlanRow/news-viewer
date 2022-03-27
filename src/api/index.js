@@ -1,10 +1,12 @@
+import { addQueryParam } from "@/utils/urls";
+
 const API_URL = "https://rosrezerv.gov.ru/api/news";
 
 export async function getNews(page) {
   let pageUrl = API_URL;
 
   if (page) {
-    pageUrl += `?page=${page}`;
+    pageUrl = addQueryParam(pageUrl, "page", page);
   }
 
   const resp = await fetch(pageUrl);
