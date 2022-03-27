@@ -3,7 +3,11 @@
     <div class="main__content page">
       <news-page :news="news" class="page__news" />
       <news-paginator class="page__paginator" />
-      <el-button class="page__loader loader" @click="appendNextPage">
+      <el-button
+        class="page__loader loader"
+        data-qa="load-more"
+        @click="appendNextPage"
+      >
         Загрузить еще
       </el-button>
     </div>

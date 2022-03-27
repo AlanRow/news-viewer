@@ -25,6 +25,7 @@ export async function getNews(page) {
 
 function parseNewsItem(data) {
   return {
+    id: data.id,
     title: data.title ?? null,
     description: data.preview ?? null,
     image: data.image ?? null,

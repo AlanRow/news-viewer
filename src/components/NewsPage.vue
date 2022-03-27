@@ -10,30 +10,31 @@
         :date="newsItem.date"
         :link="newsItem.link"
         class="news-grid__item"
+        data-qa="card"
       />
     </div>
-    <div v-if="isLoading" class="news__sub">
-      <clip-loader color="white" size="45px" />
+    <div v-if="isLoading" class="news__sub" data-qa="loader">
+      <base-loader />
     </div>
     <div v-else-if="error" class="news__sub">
-      <span class="error">Loading Error: {{ error }}</span>
+      <span class="error" data-qa="error">Loading Error: {{ error }}</span>
     </div>
     <div v-else-if="news.length === 0" class="news__sub">
-      <span class="info">No news</span>
+      <span class="info" data-qa="empty">No news</span>
     </div>
   </div>
 </template>
 
 <script>
 import NewsCard from "./NewsCard.vue";
-import ClipLoader from "vue-spinner/src/ClipLoader.vue";
+import BaseLoader from "./BaseLoader.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "NewsPage",
   components: {
     NewsCard,
-    ClipLoader,
+    BaseLoader,
   },
   props: {
     news: {
