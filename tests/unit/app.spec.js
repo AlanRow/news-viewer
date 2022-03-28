@@ -3,7 +3,7 @@ import App from "@/App.vue";
 import Vuex from "vuex";
 import { testNews } from "./testdata";
 
-describe("NewsPaginator.vue", () => {
+describe("App.vue", () => {
   let getters;
   let actions;
   let store;
