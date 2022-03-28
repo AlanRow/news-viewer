@@ -14,7 +14,7 @@
       />
     </div>
     <div v-if="isLoading" class="news__sub" data-qa="loader">
-      <base-loader />
+      <clip-loader color="white" size="45px" />
     </div>
     <div v-else-if="error" class="news__sub">
       <span class="error" data-qa="error">Loading Error: {{ error }}</span>
@@ -27,14 +27,14 @@
 
 <script>
 import NewsCard from "./NewsCard.vue";
-import BaseLoader from "./BaseLoader.vue";
+import ClipLoader from "vue-spinner/src/ClipLoader.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "NewsPage",
   components: {
     NewsCard,
-    BaseLoader,
+    ClipLoader,
   },
   props: {
     news: {

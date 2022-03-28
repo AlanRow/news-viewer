@@ -51,6 +51,7 @@ body {
 <style scoped lang="scss">
 .main {
   background-color: var(--light-color);
+  min-height: 100vh;
   padding: 2em 0;
   &__content {
     margin: auto;
